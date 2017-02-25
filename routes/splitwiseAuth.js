@@ -1,8 +1,7 @@
 var express = require('express');
-var router = express.Router();
 
 /* GET home page. */
-router.get('/splitwiseAuth', function(req, res, next) {
+let splitwiseAuth = function(req, res) {
     var AuthApi = require('splitwise-node');
     var ConsumerKey = "o5zyoGbdvTni1rUw4OU4WbHQb94kPhJbui0NThYY";
     var ConsumerSecret = "OgAl8B6IE7loMWO0oyqyO4HEOGQAvtLKXIO5THBR";
@@ -17,6 +16,6 @@ router.get('/splitwiseAuth', function(req, res, next) {
     var splitwiseAPI = authApi.getSplitwiseApi(userOAuthToken, userOAuthTokenSecret);
 
   res.render('index', { title: 'Express' });
-});
+};
 
-module.exports = router;
+module.exports = splitwiseAuth;
