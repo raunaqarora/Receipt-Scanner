@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Receipt Scanner</title>
+    <link rel="stylesheet" href="../css/libs/bootstrap-3.3.7-dist/css/bootstrap.css">
+    <v-select :options="options"></v-select>
+    <script src="../js/libs/vue.js"></script>
+    <script src="../js/libs/vue-bootstrap.js"></script>
+ 
+    <link rel="stylesheet" href="../css/libs/bootstrap-3.3.7-dist/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="../css/styles.css">
+</head>
+<body>
+<div id="app">
+<ul class="nav nav-tabs">
+  <li class="nav-item" v-for = "(user, index) in users" v-bind:class= "{ active: index == selectedTab}">
+    <a class="nav-link" v-on:click="selectedTab=index" href="#">{{ user }}</a>
+  </li>
+</ul>
+<!--<div>
+    {{users[selectedTab]}}
+</div> -->
+<div class="list-group">
+  <a href="#" v-for = "(field, index) in fields" class="list-group-item list-group-item-action" 
+    v-on:click="field.userIndex=selectedTab" v-bind:class="{ 'list-group-item-info': selectedTab == field.userIndex}"> 
+      {{ field.name }}
+      <span class="badge badge-default badge-pill">${{ field.cost }}</span>
+      </a>
+  <a href="#" class="list-group-item list-group-item-action">Name</a>
+  <a href="#" class="list-group-item list-group-item-action">Quantity</a>
+  <a href="#" class="list-group-item list-group-item-action">UserIndex</a>
+</div>
+</div>
+<script src="../js/libs/bootstrap.min.js"></script>
+<script src="../js/next.js"></script>
+</body>
+</html>
