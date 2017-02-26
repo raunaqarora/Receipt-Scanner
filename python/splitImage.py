@@ -25,7 +25,7 @@ for contour in contours:
     cv2.imwrite("/tmp/splitImage/slice-"+str(y)+"-"+str(x)+"-.jpg",image[y-5:y+h+5,x-5:x+w+5])
 
     # draw rectangle around contour on original image
-    cv2.rectangle(image,(x-5,y-5),(x+w+5,y+h+5),(255,0,255),2)
+    #cv2.rectangle(image,(x-5,y-5),(x+w+5,y+h+5),(255,0,255),2)
 
 # write original image with added contours to disk
-cv2.imwrite("contoured.jpg", image)
+#cv2.imwrite("contoured.jpg", image)
