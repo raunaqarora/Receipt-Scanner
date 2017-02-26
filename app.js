@@ -8,8 +8,7 @@ const multer = require('multer');
 var index = require('./routes/index');
 var splitwiseAuth = require('./routes/splitwiseAuth');
 const mkdirp = require('mkdirp');
-const tesseract = require('node-tesseract');
-const fs = require('fs');
+const processReciept = require('./processReceipt');
 
 var app = express();
 
@@ -37,16 +36,18 @@ app.set('view engine', 'jade');
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
 app.post('/upload', upload.any(), function(req , res){
-  let filePath = __dirname + '/' + req.files[0].path
-
-  tesseract.process(filePath,function(err, text) {
-    if(err) {
-      res.send(err);
-    } else {
-      console.log(text);
-      res.send(text);
-    }
-    fs.unlinkSync(filePath); //Delete file
+  let filePath = __dirname + '/' + req.files[0].path;
+  mkdirp('/tmp/splitImage');
+  var spawn = require("child_process").spawn;
+  var process = spawn('python',["python/splitImage.py", filePath]);
+  process.stdout.on('data', function (data){
+    console.log(data.toString());
+  });
+  process.stderr.on('data', function (data){
+    console.error(data.toString());
+  });
+  process.on('exit', function() {
+    processReciept(filePath,res);
   });
 });
 app.use(bodyParser.json());
