@@ -4,11 +4,16 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-
+const multer = require('multer');
 var index = require('./routes/index');
 var splitwiseAuth = require('./routes/splitwiseAuth');
 
 var app = express();
+
+let uploading = multer({
+  dest: __dirname + 'public/uploads/',
+  limits: {fileSize: 1000000, files:1},
+})
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,8 +27,16 @@ app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
-app.use('/', index);
+app.get('/',function(req,res){
+  res.sendFile(path.join(__dirname+'/public/html/index.html'));
+});
 app.get('/splitwiseAuth', splitwiseAuth);
+app.get('/next',function(req,res){
+  res.sendFile(path.join(__dirname+'/public/html/next.html'));
+});
+app.post('/upload', uploading.any(), function(req, res) {
+  console.log('file is uploaded');
+});
 
 // catch 404 and forward to error handler
 app.use(function(req, res, next) {
