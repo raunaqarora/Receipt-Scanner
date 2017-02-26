@@ -27,12 +27,13 @@ var app = new Vue({
                     }
                 };
 
-                video.addEventListener('click', function(){    if (localMediaStream) {
+                video.addEventListener('click', function(){
+                    if (localMediaStream) {
                     ctx.drawImage(video, 0, 0);
                     // "image/webp" works in Chrome.
                     // Other browsers will fall back to image/png.
                     document.querySelector('img').src = canvas.toDataURL('image/webp');
-                }}, false);f
+                }}, false)
 
                 var errorCallback = function(e) {
                     console.log('Rejected!', e);
@@ -49,7 +50,6 @@ var app = new Vue({
                     }, errorCallback);
                 } else {
                     alert("Come back with a better device");
-                    video.src = 'somevideo.webm'; // fallback.
                 }
             }
             else {
