@@ -24,11 +24,11 @@
 </head>
 <body>
 <div id="app">
-    <h1>Receipt Scanner</h1>>
-    <button v-on:click="getimage" type="button" class="btn-lg btn-outline-success">Capture Image</button>
-    <video autoplay></video>
-    <img src="">
-    <canvas style="display:none;"></canvas>
+    <h1>Receipt Scanner</h1>
+    <label class="btn btn-default btn-file">
+        Take Photo <input type="file" accept="image/*;capture=camera" style="display: none;" onchange="readURL(this)">
+    </label>
+    <img id="image" src="" v-if="showImage" style="height:100%;width:100%" />
 </div>
 </div>
 <script src="../js/libs/bootstrap.min.js"></script>
