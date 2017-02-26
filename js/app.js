@@ -5,7 +5,6 @@ var app = new Vue({
         showImage: false
     },
     methods:{
-
     }
 
 });
@@ -20,7 +19,16 @@ function readURL(input) {
     };
 
     reader.readAsDataURL(input.files[0]);
-
     app.showImage = true;
+    postimage(e.target.result)
   }
+}
+
+function postimage(var image) {
+    "use strict";
+    this.$http.post('/upload', image).then(response => {
+        console.log("Success")
+    }, response => {
+        // error callback
+    });
 }
