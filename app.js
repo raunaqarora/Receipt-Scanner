@@ -7,13 +7,25 @@ var bodyParser = require('body-parser');
 const multer = require('multer');
 var index = require('./routes/index');
 var splitwiseAuth = require('./routes/splitwiseAuth');
+const mkdirp = require('mkdirp');
 
 var app = express();
 
-let uploading = multer({
-  dest: __dirname + 'public/uploads/',
-  limits: {fileSize: 1000000, files:1},
-})
+var storage = multer.diskStorage({
+  destination: function (req, file, cb) {
+    //var code = JSON.parse(req.body.model).empCode;
+    var dest = 'public/uploads/';
+    mkdirp(dest, function (err) {
+      if (err) cb(err, dest);
+      else cb(null, dest);
+    });
+  },
+  filename: function (req, file, cb) {
+    cb(null, Date.now()+'-'+file.originalname);
+  }
+});
+
+var upload = multer({ storage: storage });
 
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
@@ -22,6 +34,10 @@ app.set('view engine', 'jade');
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
 app.use(logger('dev'));
+app.post('/upload', upload.any(), function(req , res){
+  console.log(req.body);
+  res.send(req.files);
+});
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
@@ -33,9 +49,6 @@ app.get('/',function(req,res){
 app.get('/splitwiseAuth', splitwiseAuth);
 app.get('/next',function(req,res){
   res.sendFile(path.join(__dirname+'/public/html/next.html'));
-});
-app.post('/upload', uploading.any(), function(req, res) {
-  console.log('file is uploaded');
 });
 
 // catch 404 and forward to error handler

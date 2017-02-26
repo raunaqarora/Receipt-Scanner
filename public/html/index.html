@@ -14,11 +14,11 @@
 <body>
 <div id="app">
     <h1>Receipt Scanner</h1>
-    <form name="Upload" action="/upload" method="post">
+    <form name="Upload" action="/upload" method="post" enctype="multipart/form-data">
             <label class="btn btn-default btn-file">
-                Take Photo <input type="file" accept="image/*;capture=camera" style="display: none;" onchange="readURL(this)">
+                Take Photo <input type="file" name="fileToUpload" id="fileToUpload" accept="image/*;capture=camera" style="display: none;" onchange="readURL(this)">
             </label>
-            <input type="submit" value="Upload"/>
+            <input type="submit" value="Upload" name="submit"/>
     </form>
     <img id="image" src="" v-if="showImage" style="height:100%;width:100%" />
 </div>
